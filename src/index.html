@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Atividade Interativa - CEPA</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <link type="text/css" href="css/style.css" rel="Stylesheet" />
+  <link type="text/css" href="css/overcast/jquery-ui-1.8.6.custom.css" rel="Stylesheet" />
+  
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.8.6.custom.min.js"></script>
+  <script type="text/javascript" src="js/SCORM_API_wrapper.js"></script>
+  <script type="text/javascript" src="js/ai-config.js"></script>
+  <script type="text/javascript" src="js/scorm-config.js"></script>
+  
+  <style>
+  
+    table
+    {
+      border: 1px;
+      border-collapse:collapse;
+      border-color: #999999;
+    }
+    
+    th {
+      width: 80px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    
+    th.top-left-cell {
+      border-top: none;
+      border-left: none;
+    }
+    
+    td {
+      padding: 5px;
+      text-align: center;
+    }
+    
+    .exercicio {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8px;
+      color: #000000;
+      font-size: small;
+    }
+    
+    
+  </style>  
+</head>
+
+<body>
+
+  <h1 style="display:none;">Centro de Ensino e Pesquisa Aplicada - CEPA</h1>
+	<h1 style="display:none;">Universidade Virtual do Estado de São Paulo - UNIVESP</h1>
+	
+	<h3>O Pêndulo simples e o Movimento Harmônico Simples</h3>
+	
+	<div id="completion-message" class="completion-message-off">
+    <strong>Atenção:</strong> esta Atividade Interativa já foi concluída. Você pode refazer os exercícios quantas vezes quiser, mas não valerá nota.
+  </div>
+
+  <div style="clear:both"></div>
+  
+  <div id="ai-container">
+    <a href="http://www.adobe.com/go/getflash">
+      <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Obtenha o Adobe Flash player" />
+    </a>
+  </div>
+  
+  <div style="clear:both"></div>
+  
+  <div id="exercicios">
+    <ul>
+      <li><a href="#orientacoes">Orientações</a></li>
+      <li><a href="#ex1">Exercício 1</a></li>
+      <li><a href="#ex2">Exercício 2</a></li>
+      <li><a href="#ex3">Exercício 3</a></li>
+      <li><a href="#ex4">Exercício 4</a></li>
+      <li><a href="#ex5">Exercício 5</a></li>
+      <li><a href="#ex6">Exercício 6</a></li>
+    </ul>
+    
+    <!-- Orientações -->
+    <div id="orientacoes" class="exercicio">
+      Nos exercícios a seguir, exploraremos a mesma simulação do pêndulo simples utilizada no capítulo anterior. Entretanto, desta vez abordaremos o problema do ponto de vista energético: exploraremos o cálculo das energias cinética e potencial gravitacional, a conservação da energia mecânica e veremos também qual é a influência da aproximação de ângulos pequenos (MHS) nessas energias.
+    </div>
+    
+    <!-- Exercício 1 -->
+    <div id="ex1" class="exercicio">
+      <p>Ponha o pêndulo para oscilar com uma amplitude de 10º, calcule as energias potencial gravitacional (U) e cinética (K) no ponto mais alto da trajetória e preencha a primeira linha da tabela abaixo com esses valores. Para isso, considere o sistema de referência cuja origem localiza-se no ponto mais baixo da trajetória, com o eixo x apontando para a direita e o eixo y, para cima. Em seguida, utilize o princípio da conservação da energia mecânica para calcular U e K no ponto mais baixo da trajetória (segunda linha da tabela).</p>
+      
+      <p>
+      <table border="1">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_alto.png"></td>
+          <td><input id="U-top-ex1" type="text" size="6" value="0" onchange="update(1, 'top');"/></td>
+          <td><input id="K-top-ex1" type="text" size="6" value="0" onchange="update(1, 'top');"/></td>
+          <td><div id="E-top-ex1">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="U-bottom-ex1" type="text" size="6" value="0" onchange="update(1, 'bottom');"></td>
+          <td><input id="K-bottom-ex1" type="text" size="6" value="0" onchange="update(1, 'bottom');"></td>
+          <td><div id="E-bottom-ex1">0</div></td>
+        </tr>
+      </table>
+      </p>
+      
+      <p>Incerteza na energia: <span id="error-ex1">indefinida.</span></p>
+      
+      <p><span class="check-button">Terminei</span></p>
+      
+      <p id="feedback-ex1"></p>
+      
+      <p class="obs"><strong>obs</strong>.: para calcular a incerteza no valor da energia, tomamos o valor absoluto da diferença entre U e K na duas linhas da tabela e dividimos por U (ou K). No caso acima, como assumimos U = K (conservação da energia), a incerteza é zero. Mas nos exercício seguintes, onde não utilizaremos este princípio, a incerteza será maior que zero.</p>
+    </div>
+    
+    <!-- Exercício 2 -->
+    <div id="ex2" class="exercicio">
+      <p>Vamos agora recalcular as energias de uma forma diferente: consulte no gráfico dθ/dt versus θ, na janela acima, o valor máximo de θ e de dθ/dt. Utilize o primeiro para calcular a energia potencial gravitacional (U) no ponto mais alto da trajetória do pêndulo (onde dθ/dt = 0), como você fez no exercício anterior. Mas agora, calcule a energia cinética (K) no ponto mais baixo da trajetória do pêndulo usando o valor máximo de dθ/dt (não use conservação de energia). Preencha corretamente a tabela abaixo com esses valores.</p>
+      
+      <p>
+      <table border="1">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_alto.png"></td>
+          <td><input id="U-top-ex2" type="text" size="6" value="0" onchange="update(2, 'top');"/></td>
+          <td><input id="K-top-ex2" type="text" size="6" value="0" onchange="update(2, 'top');"/></td>
+          <td><div id="E-top-ex2">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="U-bottom-ex2" type="text" size="6" value="0" onchange="update(2, 'bottom');"></td>
+          <td><input id="K-bottom-ex2" type="text" size="6" value="0" onchange="update(2, 'bottom');"></td>
+          <td><div id="E-bottom-ex2">0</div></td>
+        </tr>
+      </table>
+      </p>
+      
+      <p>Incerteza na energia: <span id="error-ex2">indefinida.</span></p>
+      
+      <p><span class="check-button">Terminei</span></p>
+      
+      <p id="feedback-ex2"></p>
+      
+      <p id="follow-up-ex2">Note que agora o erro cometido no cálculo da energia não é mais zero, pois estamos utilizando valores "experimentais" (advindos da simulação acima). Mesmo assim, podemos notar a conservação da energia mecânica.</p>
+      
+      <p class="obs"><strong>dica</strong>.: você pode aproximar o gráfico para vê-lo melhor. Para isso, pressione o botão "shift" e arraste a roda do mouse.
+    </div>
+    
+    <!-- Exercício 3 -->
+    <div id="ex3" class="exercicio">
+      <p>Faça agora os mesmos cálculos que você fez no exercício anterior (sem usar conservação de energia) e preencha a tabela. Mas ao invés dos valores "experimentais", utilize aqueles previstos pelo Movimento Harmônico Simples. Dito de outra forma, utilize <strong>apenas</strong> a equação horária θ(t) = θ<sub>0</sub> cos(ω t).</p>
+      
+      <p>
+      <table border="1">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_alto.png"></td>
+          <td><input id="U-top-ex3" type="text" size="6" value="0" onchange="update(3, 'top');"/></td>
+          <td><input id="K-top-ex3" type="text" size="6" value="0" onchange="update(3, 'top');"/></td>
+          <td><div id="E-top-ex3">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="U-bottom-ex3" type="text" size="6" value="0" onchange="update(3, 'bottom');"></td>
+          <td><input id="K-bottom-ex3" type="text" size="6" value="0" onchange="update(3, 'bottom');"></td>
+          <td><div id="E-bottom-ex3">0</div></td>
+        </tr>
+      </table>
+      </p>
+      
+      <p>Incerteza na energia: <span id="error-ex3">indefinida.</span></p>
+      
+      <p><span class="check-button">Terminei</span></p>
+      
+      <p id="feedback-ex3"></p>
+      
+      <p id="follow-up-ex3">Você utilizou três métodos diferentes para calcular as energias cinética e potencial gravitacional: no primeiro método você utilizou apenas a amplitude da oscilação (θ<sub>0</sub> = θ<sub>máximo</sub>) para calcular U e, através da conservação da energia, deduziu K. No segundo método você utilizou tanto θ<sub>máximo</sub> como dθ<sub>máximo</sub>/dt para calcular U e K, respectivamente. Os cálculos no terceiro método foram iguais ao do segundo, mas desta vez você utilizou o modelo do Movimento Harmônico Simples para calcular dθ<sub>máximo</sub>/dt e, então, K.</p>
+    </div>
+    
+    <!-- Exercício 4 -->
+    <div id="ex4" class="exercicio">
+      <p>Nos exercícios seguintes você refará as contas dos exercícios anteriores, mas desta vez para oscilações de grande amplitude (não deixe de ficar atento(a) à incerteza no valor da energia em cada caso).<p>
+      <p>Ponha o pêndulo para oscilar com uma amplitude de 90º e, apenas utilizando o princípio de conservação da energia mecânica, preencha a tabela abaixo, da mesma forma como você fez no exercício 1.</p>
+      
+      <p>
+      <table border="1">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_alto.png"></td>
+          <td><input id="U-top-ex4" type="text" size="6" value="0" onchange="update(4, 'top');"/></td>
+          <td><input id="K-top-ex4" type="text" size="6" value="0" onchange="update(4, 'top');"/></td>
+          <td><div id="E-top-ex4">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="U-bottom-ex4" type="text" size="6" value="0" onchange="update(4, 'bottom');"></td>
+          <td><input id="K-bottom-ex4" type="text" size="6" value="0" onchange="update(4, 'bottom');"></td>
+          <td><div id="E-bottom-ex4">0</div></td>
+        </tr>
+      </table>
+      </p>
+      
+      <p>Incerteza na energia: <span id="error-ex4">indefinida.</span></p>
+      
+      <p><span class="check-button">Terminei</span></p>
+      
+      <p id="feedback-ex4"></p>
+    </div>
+    
+    <!-- Exercício 5 -->
+    <div id="ex5" class="exercicio">
+      <p>Como no exercício 2, consulte o gráfico de dθ/dt versus θ e preencha a tabela.</p>
+      
+      <p>
+      <table border="1">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_alto.png"></td>
+          <td><input id="U-top-ex5" type="text" size="6" value="0" onchange="update(5, 'top');"/></td>
+          <td><input id="K-top-ex5" type="text" size="6" value="0" onchange="update(5, 'top');"/></td>
+          <td><div id="E-top-ex5">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="U-bottom-ex5" type="text" size="6" value="0" onchange="update(5, 'bottom');"></td>
+          <td><input id="K-bottom-ex5" type="text" size="6" value="0" onchange="update(5, 'bottom');"></td>
+          <td><div id="E-bottom-ex5">0</div></td>
+        </tr>
+      </table>
+      </p>
+      
+      <p>Incerteza na energia: <span id="error-ex5">indefinida.</span></p>
+      
+      <p><span class="check-button">Terminei</span></p>
+      
+      <p id="feedback-ex5"></p>
+    </div>
+    
+    <!-- Exercício 6 -->
+    <div id="ex6" class="exercicio">
+      <p>Utilize novamente o modelo do Movimento Harmônico Simples para calcular U e K a partir de θ máximo e dθ/dt máximo, respectivamente (não use conservação de energia).</p>
+      
+      <p>
+      <table border="1">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_alto.png"></td>
+          <td><input id="U-top-ex6" type="text" size="6" value="0" onchange="update(6, 'top');"/></td>
+          <td><input id="K-top-ex6" type="text" size="6" value="0" onchange="update(6, 'top');"/></td>
+          <td><div id="E-top-ex6">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="U-bottom-ex6" type="text" size="6" value="0" onchange="update(6, 'bottom');"></td>
+          <td><input id="K-bottom-ex6" type="text" size="6" value="0" onchange="update(6, 'bottom');"></td>
+          <td><div id="E-bottom-ex6">0</div></td>
+        </tr>
+      </table>
+      </p>
+      
+      <p>Incerteza na energia: <span id="error-ex6">indefinida.</span></p>
+      
+      <p><span class="check-button">Terminei</span></p>
+      
+      <p id="feedback-ex6"></p>
+      
+      <p id="follow-up-ex6">Você prestou atenção nas incertezas em cada caso? Discuta-as com seus colegas.</p>
+    </div>
+    
+  </div>
+  
+  <span id="about">Desenvolvido pelo Centro de Ensino e Pesquisa Aplicada (<a href="http://cepa.if.usp.br/" target="_blank">CEPA</a>)</span>
+
+</body>
+</html>
