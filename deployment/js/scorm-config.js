@@ -1,3 +1,4 @@
+var learnername = ""; // Nome do aluno
 var completed = false; // Status da AI: completada ou não
 var score = 0; // Nota do aluno (de 0 a 100)
 var scormExercise = 1; // Exercício corrente relevante ao SCORM
@@ -41,8 +42,8 @@ function configAi () {
 	
 	var flashvars = {};
 	flashvars.ai = "swf/AI-0088.swf";
-	flashvars.width = "700";
-	flashvars.height = "500";
+	flashvars.width = "550";
+	flashvars.height = "400";
 	
 	var params = {};
 	params.menu = "false";
@@ -60,7 +61,12 @@ function configAi () {
   $("#follow-up-ex2").hide();
   $("#follow-up-ex3").hide();
   $("#follow-up-ex6").hide();
-    
+  
+  // Ao pressionar num botão "terminei", avalia o exercício da vez (scormExercise)
+  $('.check-button').button().click(evaluateExercise);
+  
+  //initSCORM();
+  
   // (Re)abilita os exercícios já feitos e desabilita aqueles ainda por fazer.
   if (completed) $('#exercicios').tabs("option", "disabled", []);
   else {
@@ -78,18 +84,12 @@ function configAi () {
   $('.check-button').button().click(evaluateExercise);
   $('.check-button2').button().click(evaluateExercise);
   $('.check-button3').button().click(evaluateExercise);
-  $('.check-button4').button().click(evaluateExercise);
-  $('.check-button5').button().click(evaluateExercise);
-  $('.check-button6').button().click(evaluateExercise);
 
   
   //Começa com botão Próximo/Terminar desabilitado.
   $( ".check-button" ).button({ disabled: true });
   $( ".check-button2" ).button({ disabled: true });
   $( ".check-button3" ).button({ disabled: true });
-  $( ".check-button4" ).button({ disabled: true });
-  $( ".check-button5" ).button({ disabled: true });
-  $( ".check-button6" ).button({ disabled: true });
 
 }
 
@@ -99,10 +99,10 @@ function selectExercise (exercise) {
 	switch(exercise) {
 		case 1:
 			console.log("Configurando o exercício 1");
-				
+			var angle = (screenExercise == 1 ? 10 : 90);
+			
 			//MODO DE DEBUG
 			if(debug){
-				angle = (screenExercise == 1 ? 10 : 90);
 				ra = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(angle * Math.PI / 180));
 				energy = ra;
 				ra2 = 0;
@@ -118,9 +118,7 @@ function selectExercise (exercise) {
 			
 		case 2:
 			console.log("Configurando o exercício 2");
-				ai.setTeta(10);
-				ai.playAnimation();
-				
+			
 			//MODO DE DEBUG
 			if(debug){
 				ra = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(ai.getTeta() * Math.PI / 180));
@@ -137,40 +135,20 @@ function selectExercise (exercise) {
 			
 		case 3:
 			console.log("Configurando o exercício 3");
-				ai.setTeta(10);
-				ai.playAnimation();
 			
 			//MODO DE DEBUG
 			if(debug){
-				angle = (screenExercise == 3 ? 10 : 90);
-				ra = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(angle * Math.PI / 180));
-				ra2 = 0;
-				ra3 = 0;
-				ra4 = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * Math.pow(angle * Math.PI / 180, 2) / 2;
-				console.log("U-top: " + ra);
-				console.log("K-top: " + ra2);
-				console.log("U-base: " + ra3);		
-				console.log("K-base: " + ra4);
+
 			}
 
 			break;
 			
 		case 4:
-			console.log("Configurando o exercício 4");			
-			angle = 0;
+			console.log("Configurando o exercício 4");
 			
 			//MODO DE DEBUG
 			if(debug){
-				angle = (screenExercise == 1 ? 10 : 90);
-				ra = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(angle * Math.PI / 180));
-				energy = ra;
-				ra2 = 0;
-				ra3 = 0;
-				ra4 = energy;
-				console.log("U-top: " + ra);
-				console.log("K-top: " + ra2);
-				console.log("U-base: " + ra3);
-				console.log("K-base: " + ra4);
+
 			}
 			
 
@@ -178,37 +156,20 @@ function selectExercise (exercise) {
 			
 		case 5:
 			console.log("Configurando o exercício 5");
-			ai.setTeta(90);
-            ai.playAnimation();
+			
 			//MODO DE DEBUG
 			if(debug){
-				ra = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(ai.getTeta() * Math.PI / 180));
-				ra2 = 0;
-				ra3 = 0;
-				ra4 = ai.getMassa() * Math.pow(ai.getComprimento() * ai.getVelocidade(), 2) / 2;
-				console.log("U-top: " + ra);
-				console.log("K-top: " + ra3);
-				console.log("U-base: " + ra2);
-				console.log("K-base: " + ra4);		
+
 			}
 
 			break;
 		
 		case 6:
 			console.log("Configurando o exercício 6");
-			ai.setTeta(90);
-            ai.playAnimation();
+			
 			//MODO DE DEBUG
 			if(debug){
-				angle = (screenExercise == 3 ? 10 : 90);
-				ra = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(angle * Math.PI / 180));
-				ra2 = 0;
-				ra3 = 0;
-				ra4 = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * Math.pow(angle * Math.PI / 180, 2) / 2;
-				console.log("U-top: " + ra);
-				console.log("K-top: " + ra2);
-				console.log("U-base: " + ra3);		
-				console.log("K-base: " + ra4);
+
 			}
 
 			break;
@@ -248,11 +209,13 @@ function getAi(){
 // Inicia a AI.
 function iniciaAtividade(){       
   	
+  //$('#reiniciar').button().click(reloadPage);
   // Ao pressionar numa aba (exercício), define aquele como exercício da tela.
   $('#exercicios').tabs({
       select: function(event, ui) {
         screenExercise = ui.index;
-		ai.showHideMHS(false);		
+		selectExercise(screenExercise);
+        ai.showHideMHS(false);
         
         if (screenExercise == 2 || screenExercise == 3) {
           if (Math.abs(ai.getTeta()) < 1) {
@@ -265,8 +228,7 @@ function iniciaAtividade(){
             ai.setTeta(90);
             ai.playAnimation();
           }
-        }		
-		selectExercise(screenExercise);		
+        }
       }
   });
 
@@ -314,32 +276,33 @@ function iniciaAtividade(){
 	    }
 	}
 	if(screenExercise == 3) {
-		if(value01 != '' || value02 != '' || value03 != '' || value04 != '') {
+		if(value03 != '') {
 			//Habilita botão de próximo no exercicio 3.
-			$( ".check-button3" ).button({ disabled: false });
-	    }
-	}
-	if(screenExercise == 4) {
-		if(value01 != '' || value02 != '' || value03 != '' || value04 != '') {
-			//Habilita botão de próximo no exercicio 4.
-			$( ".check-button4" ).button({ disabled: false });
-	    }
-	}
-	if(screenExercise == 5) {
-		if(value01 != '' || value02 != '' || value03 != '' || value04 != '') {
-			//Habilita botão de próximo no exercicio 5.
-			$( ".check-button5" ).button({ disabled: false });
+			if(!bt2ProxEnabled){
+				$( ".check-button3" ).button({ disabled: false });
+				bt2ProxEnabled = true;
+			}
 	    }
 	}
 	if(screenExercise == 6) {
-		if(value01 != '' || value02 != '' || value03 != '' || value04 != '') {
-			//Habilita botão de próximo no exercicio 6.
+		if(value07 != '') {
+			//Habilita botão Terminei no exercicio 6.
 			$( ".check-button6" ).button({ disabled: false });
 	    }
 	}
+	
+	
+	
   });
+  
+
+  
   initAI();
+  
 }
+
+var bt1ProxEnabled = false;
+var bt2ProxEnabled = false;
 
 /*
  * Inicia a conexão SCORM.
@@ -351,10 +314,9 @@ function initAI () {
   
   // A tentativa de conexão com o LMS foi bem sucedida.
   if (connected) {
-	
-	var mode = scorm.get("cmi.mode");
-	if(mode == "normal") scorm.set("cmi.credit", "credit")
-	else scorm.set("cmi.credit", "no-credit");
+  
+  	if(scorm.get("cmi.mode") != "normal") return;
+	scorm.set("cmi.exit","suspend");
 	
     // Verifica se a AI já foi concluída.
     var completionstatus = scorm.get("cmi.completion_status");
@@ -367,6 +329,7 @@ function initAI () {
       case "unknown":
       default:
         completed = false;
+        learnername = scorm.get("cmi.learner_name");
         scormExercise = 1;
         score = 0;
         
@@ -376,15 +339,17 @@ function initAI () {
       // Continuando a AI...
       case "incomplete":
         completed = false;
-        
+        learnername = scorm.get("cmi.learner_name");
         scormExercise = parseInt(scorm.get("cmi.location"));
         score = parseInt(scorm.get("cmi.score.raw"));
+        
         $("#completion-message").removeClass().addClass("completion-message-off");
         break;
         
       // A AI já foi completada.
       case "completed":
         completed = true;
+        learnername = scorm.get("cmi.learner_name");
         scormExercise = parseInt(scorm.get("cmi.location"));
         score = parseInt(scorm.get("cmi.score.raw"));
         
@@ -394,13 +359,6 @@ function initAI () {
     
     if (isNaN(scormExercise)) scormExercise = 1;
     if (isNaN(score)) score = 0;
-	
-	scorm.set("cmi.score.min", 0);
-	scorm.set("cmi.score.max", 100);
-	
-	// Posiciona o aluno no exercício da vez
-    screenExercise = scormExercise;
-    $('#exercicios').tabs("select", scormExercise - 1);  
     
     pingLMS();
     
@@ -408,6 +366,7 @@ function initAI () {
   // A tentativa de conexão com o LMS falhou.
   else {
     completed = false;
+    learnername = "";
     scormExercise = 1;
     score = 0;
     log.error("A conexão com o Moodle falhou.");
@@ -420,21 +379,11 @@ function initAI () {
 function save2LMS () {
   if (scorm.connection.isActive) {
   
-	if(scorm.get("cmi.mode") != "normal") return;
-  
     // Salva no LMS a nota do aluno.
-    var success = scorm.set("cmi.score.raw", score);
+    var success = scorm.set("cmi.score.raw", Math.round(score));
   
     // Notifica o LMS que esta atividade foi concluída.
     success = scorm.set("cmi.completion_status", (completed ? "completed" : "incomplete"));
-	
-	if (completed) {
-		scorm.set("cmi.exit", "normal");
-	} else { 
-		scorm.set("cmi.exit","suspend");
-	}
-	
-    success = scorm.set("cmi.success_status", (score > 75 ? "passed" : "failed"));
     
     // Salva no LMS o exercício que deve ser exibido quando a AI for acessada novamente.
     success = scorm.set("cmi.location", scormExercise);
@@ -445,6 +394,7 @@ function save2LMS () {
     log.trace("A conexão com o LMS não está ativa.");
   }
 }
+
 /*
  * Mantém a conexão com LMS ativa, atualizando a variável cmi.session_time
  */
@@ -470,14 +420,12 @@ function evaluateExercise (event) {
  
   // Atualiza a nota do LMS (apenas se a questão respondida é aquela esperada pelo LMS)
   if (!completed && screenExercise == scormExercise) {
-    //score = Math.max(0, Math.min(score, 100));
+    score = Math.max(0, Math.min(score + currentScore, 100));
     
     if (scormExercise < N_EXERCISES) {
       nextExercise();
     }
     else {
-		score += 50;
-		score = Math.round(score);
       completed = true;
       scormExercise = 1;
       save2LMS();
@@ -507,6 +455,7 @@ function evaluate (user_answer, right_answer, tolerance) {
 function getScore (exercise) {
 
   ans = 0;
+  exOk = true;
   var angle = 0;
 
   switch (exercise) {
@@ -514,9 +463,20 @@ function getScore (exercise) {
     // Avalia a nota dos exercícios 1 e 4.
     case 1:
     case 4:
-    default:		
-		//desabilitar caixas de texto, botão Terminei.
-		$( ".check-button" + screenExercise).button({ disabled: true });
+    default:
+    	
+		field1 = $("#U-top-ex" + screenExercise);
+		field2 = $("#U-bottom-ex" + screenExercise);
+		field3 = $("#K-top-ex" + screenExercise);
+		field4 = $("#K-bottom-ex" + screenExercise);
+		if (field1 == '' || field2 == '' || field3 == '' || field4 == ''){ 
+			alert('Preencher todos os campos!');
+			exOk = false;
+			return;
+		}
+		
+		//desabilitar caixas de texto, botão Inverter e Terminei.
+		$( ".check-button" ).button({ disabled: true });
 		$("#U-top-ex" + screenExercise).attr("disabled",true);
         $("#K-top-ex" + screenExercise).attr("disabled",true);
 		$("#U-bottom-ex" + screenExercise).attr("disabled",true);
@@ -533,7 +493,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
         } 
         /*if (screenExercise == 1) state.u_top_ex1 = user_answer;
 			else state.u_top_ex4 = user_answer;
@@ -554,7 +513,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
         } 
 		else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -573,7 +531,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
         } 
 		else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -591,7 +548,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
 		} 
 		 else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -612,8 +568,8 @@ function getScore (exercise) {
 		var user_answer = parseFloat(field.val().replace(",", "."));
 		var right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(ai.getTeta() * Math.PI / 180));
       
-	  	//desabilitar caixas de texto, botão Terminei.
-		$( ".check-button" + screenExercise).button({ disabled: true });
+	  	//desabilitar caixas de texto, botão Inverter e Terminei.
+		$( ".check-button2" ).button({ disabled: true });
 		$("#U-top-ex" + screenExercise).attr("disabled",true);
         $("#K-top-ex" + screenExercise).attr("disabled",true);
 		$("#U-bottom-ex" + screenExercise).attr("disabled",true);
@@ -623,7 +579,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, 0.22)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
 		} 
 		 else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -641,7 +596,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
 		} 
 		 else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -660,7 +614,6 @@ function getScore (exercise) {
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
 		} 
 		 else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -678,7 +631,6 @@ function getScore (exercise) {
  		if (evaluate(user_answer, right_answer, 0.22)) {
 			ans += 100/4;	
 			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
 		} 
 		 else {
 			field2.val(right_answer.toFixed(1).replace(".", ","));
@@ -696,90 +648,104 @@ function getScore (exercise) {
     // ----------------------------------
     case 3:
     case 6:
-		var angle = (screenExercise == 3 ? 10 : 90);
-		var field = $("#U-top-ex" + screenExercise);
-		field2 = $("#Ur-top-ex" + screenExercise);
-		var user_answer = parseFloat(field.val().replace(",", "."));
-		var right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(angle * Math.PI / 180));
-		
-		//desabilitar caixas de texto, botão Terminei.
-		$( ".check-button" + screenExercise).button({ disabled: true });
-		$("#U-top-ex" + screenExercise).attr("disabled",true);
-        $("#K-top-ex" + screenExercise).attr("disabled",true);
-		$("#U-bottom-ex" + screenExercise).attr("disabled",true);
-		$("#K-bottom-ex" + screenExercise).attr("disabled",true);
       
-		if (evaluate(user_answer, right_answer, TOLERANCE)) {
-			ans += 100/4;
-			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-		}
-		else {
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-			field2.css("background-color", "#66CC33");
-			field.css("background-color", "#FA5858");
-			updateError(screenExercise);
-			updateEnergy(screenExercise);
-		}
+      var success = true;
+    
+      var angle = (screenExercise == 3 ? 10 : 90);
+      var field = $("#U-top-ex" + screenExercise);
+      var user_answer = parseFloat(field.val().replace(",", "."));
+      var right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * (1 - Math.cos(angle * Math.PI / 180));
+	  
       
-		field = $("#K-top-ex" + screenExercise);
-		field2 = $("#Kr-top-ex" + screenExercise);
-		user_answer = parseFloat(field.val().replace(",", "."));
-		right_answer = 0;
+      console.log("------- U no topo");
+      console.log("Usuário: " + user_answer);
+      console.log("Resposta esperada: " + right_answer);
+      
+      if (Math.abs(user_answer - right_answer) <= 0.05 * Math.abs(right_answer)) {
+        currentScore += SCORE_UNIT;
+        field.css("background-color", "#66CC33");
+      }
+      else {
+        success = false;
+        field.val(right_answer.toFixed(1).replace(".", ","));
+        field.css("background-color", "#FA5858");
+        updateError(screenExercise);
+        updateEnergy(screenExercise);
+      }
+      
+      field = $("#K-top-ex" + screenExercise);
+      user_answer = parseFloat(field.val().replace(",", "."));
+      right_answer = 0;
+      
+      console.log("------ K no topo");
+      console.log("Usuário: " + user_answer);
+      console.log("Resposta esperada: " + right_answer);
             
-		if (evaluate(user_answer, right_answer, TOLERANCE)) {
-			ans += 100/4;
-			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-		}
-		else {
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-			field2.css("background-color", "#66CC33");
-			field.css("background-color", "#FA5858");
-			updateError(screenExercise);
-			updateEnergy(screenExercise);
-		}            
+      if (Math.abs(user_answer - right_answer) <= 0.05 * Math.abs(right_answer)) {
+        currentScore += SCORE_UNIT;
+        field.css("background-color", "#66CC33");
+      }
+      else {
+        success = false;
+        field.val(right_answer.toFixed(1).replace(".", ","));
+        field.css("background-color", "#FA5858");
+        updateError(screenExercise);
+        updateEnergy(screenExercise);
+      }            
             
-		field = $("#U-bottom-ex" + screenExercise);
-		field2 = $("#Ur-bottom-ex" + screenExercise);
-		user_answer = parseFloat(field.val().replace(",", "."));
-		right_answer = 0;
+      field = $("#U-bottom-ex" + screenExercise);
+      user_answer = parseFloat(field.val().replace(",", "."));
+      right_answer = 0;
       
-		if (evaluate(user_answer, right_answer, TOLERANCE)) {
-			ans += 100/4;
-			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-		}
-		else {
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-			field2.css("background-color", "#66CC33");
-			field.css("background-color", "#FA5858");
-			updateError(screenExercise);
-			updateEnergy(screenExercise);
-		}
+      console.log("------ U na base");
+      console.log("Usuário: " + user_answer);
+      console.log("Resposta esperada: " + right_answer);
       
-		field = $("#K-bottom-ex" + screenExercise);
-		field2 = $("#Kr-bottom-ex" + screenExercise);
-		user_answer = parseFloat(field.val().replace(",", "."));
-		right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * Math.pow(angle * Math.PI / 180, 2) / 2;
-		
-		if (evaluate(user_answer, right_answer, TOLERANCE)) {
-			ans += 100/4;
-			field.css("background-color", "#66CC33");
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-		}
-		else {
-			field2.val(right_answer.toFixed(1).replace(".", ","));
-			field2.css("background-color", "#66CC33");
-			field.css("background-color", "#FA5858");
-			updateError(screenExercise);
-			updateEnergy(screenExercise);
-		}
+      if (Math.abs(user_answer - right_answer) <= 0.05 * Math.abs(right_answer)) {
+        currentScore += SCORE_UNIT;
+        field.css("background-color", "#66CC33");
+      }
+      else {
+        success = false;
+        field.val(right_answer.toFixed(1).replace(".", ","));
+        field.css("background-color", "#FA5858");
+        updateError(screenExercise);
+        updateEnergy(screenExercise);
+      }
+      
+      field = $("#K-bottom-ex" + screenExercise);
+      user_answer = parseFloat(field.val().replace(",", "."));
+      right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * Math.pow(angle * Math.PI / 180, 2) / 2;
+          
+      console.log("------ U na base");
+      console.log("Usuário: " + user_answer);
+      console.log("Resposta esperada: " + right_answer);
         
-		$("#follow-up-ex" + screenExercise).show();
-        ans = Math.round(ans);
-		
-    break;   
+      if (Math.abs(user_answer - right_answer) <= 0.05 * Math.abs(right_answer)) {
+        currentScore += SCORE_UNIT;
+        field.css("background-color", "#66CC33");
+      }
+      else {
+        success = false;
+        field.val(right_answer.toFixed(1).replace(".", ","));
+        field.css("background-color", "#FA5858");
+        updateError(screenExercise);
+        updateEnergy(screenExercise);
+      }
+      
+      if (success) {
+        $("#feedback-ex" + screenExercise).html('Correto!');
+        $("#feedback-ex" + screenExercise).removeClass().addClass("right-answer");
+      }
+      else {
+        $("#feedback-ex" + screenExercise).html("Ao menos uma de suas respostas estava incorreta (campos destacados em vermelho). Elas foram automaticamente substituídas pela resposta certa.");
+        $("#feedback-ex" + screenExercise).removeClass().addClass("wrong-answer");
+      }
+        
+      $("#follow-up-ex" + screenExercise).show();
+          		ans = Math.round(ans);
+      break;
+	    
   }
   return ans;
 }
@@ -797,9 +763,6 @@ function feedback (exercise, score) {
           $('#message1').html('Resposta correta!').removeClass().addClass("right-answer");
       } else {
 			document.getElementById('respcerta1').style.display="block";
-			//Coloca pendulo para oscilar 
-			ai.setTeta(10);
-            ai.playAnimation();
             $('#message1').html('Ao menos uma de suas respostas estava incorreta (campos destacados em vermelho).').removeClass().addClass("wrong-answer");
         }
       
@@ -820,10 +783,12 @@ function feedback (exercise, score) {
     case 3:
       if (score == 100) {
           $('#message3').html('Resposta correta!').removeClass().addClass("right-answer");
+		  document.getElementById('frame03').style.display="block";
       } else {
-			document.getElementById('respcerta3').style.display="block";      
-			$('#message3').html('Ao menos uma de suas respostas estava incorreta (campos destacados em vermelho).').removeClass().addClass("wrong-answer");
-		  
+		  var resposta = Number(ai.get("AREA")).toFixed(2).replace(".", ",");	
+			      
+          $('#message3').html('O correto seria ' + resposta +'.').removeClass().addClass("wrong-answer");
+		  document.getElementById('frame03').style.display="block";
       }
       
       break;	  
@@ -832,34 +797,62 @@ function feedback (exercise, score) {
     case 4:
 	  if (score == 100) {
           $('#message4').html('Resposta correta!').removeClass().addClass("right-answer");
-      } else {			      
-			document.getElementById('respcerta4').style.display="block";      
-			$('#message4').html('Ao menos uma de suas respostas estava incorreta (campos destacados em vermelho).').removeClass().addClass("wrong-answer");
+      } else {
+		  var resposta = Number(ai.get("FUNCTION_VALUE", ai.get("M"))).toFixed(2).replace(".", ",");
+          var correto = Number(ai.get("MEAN_VALUE")).toFixed(2).replace(".", ",");
 		  
+		  ai.set("M",ai.get("FUNCTION_INVERSE", correto));
+			      
+          $('#message4').html('Sua resposta foi M = ' + resposta + ', mas o correto seria ' + correto + ' (veja na figura acima: eu reposicionei M no local correto).').removeClass().addClass("wrong-answer");
       }
 	
       break;
 	  
     // Feedback da resposta ao exercício 5
     case 5:   	
-	  if (score == 100) {
-          $('#message5').html('Resposta correta!').removeClass().addClass("right-answer");
-      } else {			      
-			document.getElementById('respcerta5').style.display="block";      
-			$('#message5').html('Ao menos uma de suas respostas estava incorreta (campos destacados em vermelho).').removeClass().addClass("wrong-answer");
-		  
+	var valor1 = document.selects.ex5_select_01.value; 
+	var valor2 = document.selects.ex5_select_02.value;
+	var valor3 = document.selects.ex5_select_03.value;
+	var valor4 = document.selects.ex5_select_04.value;
+	if (valor1 == 'menor') {document.getElementById('feedback5-a').style.display="block";}
+	if (valor2 == 'maior') {document.getElementById('feedback5-b').style.display="block";}
+	if (valor3 == 'menor') {document.getElementById('feedback5-c').style.display="block";}	
+	if (valor4 == 'menor') {document.getElementById('feedback5-d').style.display="block";}
+      if (valor1 == 'menor') {
+		  document.getElementById('feedback5-a').style.display="block";
+          $('#message5a').html('O correto seria: >').removeClass().addClass("wrong-answer");
+      } else {      
+	      $('#message5a').html('Resposta correta!').removeClass().addClass("right-answer");
       }
-
+	  if (valor2 == 'maior') {
+	      document.getElementById('feedback5-b').style.display="block"; 
+          $('#message5b').html('O correto seria: <').removeClass().addClass("wrong-answer");
+      } else {      
+	      $('#message5b').html('Resposta correta!').removeClass().addClass("right-answer");
+      }
+	  if (valor3 == 'menor') {
+	      document.getElementById('feedback5-c').style.display="block";
+          $('#message5c').html('O correto seria: >').removeClass().addClass("wrong-answer");
+      } else {      
+	      $('#message5c').html('Resposta correta!').removeClass().addClass("right-answer");
+      }
+	  if (valor4 == 'menor') {
+	      document.getElementById('feedback5-d').style.display="block";
+          $('#message5d').html('O correto seria: >').removeClass().addClass("wrong-answer");
+      } else {      
+	      $('#message5d').html('Resposta correta!').removeClass().addClass("right-answer");
+      }
+	   
       break;
 	  
     // Feedback da resposta ao exercício 6
     case 6:
-	  if (score == 100) {
+      if (score == 100) {
           $('#message6').html('Resposta correta!').removeClass().addClass("right-answer");
-      } else {			      
-			document.getElementById('respcerta6').style.display="block";      
-			$('#message6').html('Ao menos uma de suas respostas estava incorreta (campos destacados em vermelho).').removeClass().addClass("wrong-answer");
+      } else {
 		  
+			      
+          $('#message6').html('O correto seria ' + resposta +'.').removeClass().addClass("wrong-answer");
       }
       
       break;
