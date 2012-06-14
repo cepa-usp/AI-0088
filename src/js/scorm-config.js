@@ -12,9 +12,9 @@ var MAX_INIT_TRIES = 60;
 var init_tries = 0;
 var debug = true;
 var SCORE_UNIT = 100 / 24; //isso está certo? não seria o número de exercícios 100/6 ?
-var state = {};
 var currentScore = 0;
 var exOk;
+var memento = {};
 
 $(document).ready(init); // Inicia a AI.
 $(window).unload(uninit); // Encerra a AI.
@@ -38,7 +38,6 @@ function uninit () {
 }
 
 function configAi () {
-	
 	var flashvars = {};
 	flashvars.ai = "swf/AI-0088.swf";
 	flashvars.width = "700";
@@ -75,7 +74,7 @@ function configAi () {
   $('#exercicios').tabs("select", scormExercise - 1);
 
   // Configurações dos botões em geral
-  $('.check-button').button().click(evaluateExercise);
+  $('.check-button1').button().click(evaluateExercise);
   $('.check-button2').button().click(evaluateExercise);
   $('.check-button3').button().click(evaluateExercise);
   $('.check-button4').button().click(evaluateExercise);
@@ -84,7 +83,7 @@ function configAi () {
 
   
   //Começa com botão Próximo/Terminar desabilitado.
-  $( ".check-button" ).button({ disabled: true });
+  $( ".check-button1" ).button({ disabled: true });
   $( ".check-button2" ).button({ disabled: true });
   $( ".check-button3" ).button({ disabled: true });
   $( ".check-button4" ).button({ disabled: true });
@@ -99,6 +98,11 @@ function selectExercise (exercise) {
 	switch(exercise) {
 		case 1:
 			console.log("Configurando o exercício 1");
+			
+
+				console.log(ai.getMassa());
+				console.log(ai.getComprimento());
+				console.log(ai.getGravidade());
 				
 			//MODO DE DEBUG
 			if(debug){
@@ -120,6 +124,8 @@ function selectExercise (exercise) {
 			console.log("Configurando o exercício 2");
 				ai.setTeta(10);
 				ai.playAnimation();
+	
+			
 				
 			//MODO DE DEBUG
 			if(debug){
@@ -139,7 +145,7 @@ function selectExercise (exercise) {
 			console.log("Configurando o exercício 3");
 				ai.setTeta(10);
 				ai.playAnimation();
-			
+				
 			//MODO DE DEBUG
 			if(debug){
 				angle = (screenExercise == 3 ? 10 : 90);
@@ -220,12 +226,13 @@ function selectExercise (exercise) {
 }
 
 function checkCallbacks () {
+	var swfOk = false;
 	var t2 = new Date().getTime();
 	ai = document.getElementById("ai");
 	try {
 		ai.doNothing();
+		swfOk = true;
 		message("swf ok!");
-		iniciaAtividade();
 	}
 	catch(error) {
 		++init_tries;
@@ -238,6 +245,8 @@ function checkCallbacks () {
 			setTimeout("checkCallbacks()", 1000);
 		}
 	}
+	
+	if(swfOk) iniciaAtividade();
 }
 
 function getAi(){
@@ -245,13 +254,90 @@ function getAi(){
 	iniciaAtividade();
 }
 
+function saveStats(){
+	//alert("salvando");
+	for(var i = 1; i <=6; i++){
+		//alert($('#U-top-ex' + i).val());
+		var name = "pos" + i;
+		memento.memento[name].a = String($('#U-top-ex' + i).val());
+		memento.memento[name].b = String($('#K-top-ex' + i).val());
+		
+		memento.memento[name].c = String($('#U-bottom-ex' + i).val());
+		memento.memento[name].d = String($('#K-bottom-ex' + i).val());
+	}
+	
+	
+	save2LMS();
+}
+
+function recoverStatus(){
+	for(var i = 1; i <=6; i++){
+		var name = "pos" + i;
+		
+		if(memento.memento[name].a) $('#U-top-ex' + i).val(memento.memento[name].a);
+		if(memento.memento[name].b) $('#K-top-ex' + i).val(memento.memento[name].b);
+		
+		if(memento.memento[name].c) $('#U-bottom-ex' + i).val(memento.memento[name].c);
+		if(memento.memento[name].d) $('#K-bottom-ex' + i).val(memento.memento[name].d);
+		
+		if(i <= memento.memento.currentEx) $('#exercicios').tabs("enable", i);
+		
+		if(memento.memento[name].button){
+			var score = getScore(i);
+			feedback(i, score);
+			updateError(i);
+		}
+		
+		if(i == memento.memento.currentEx) {
+			screenExercise = memento.memento.currentEx;
+			scormExercise = memento.memento.currentEx;
+			if(memento.memento[name].a && memento.memento[name].b && memento.memento[name].c && memento.memento[name].d) $('#exercicios').tabs("select", i);
+			return;
+		}
+		
+	}
+}
+
 // Inicia a AI.
 function iniciaAtividade(){       
   	
+	for(var i = 1; i <=6; i++){
+		$('#U-top-ex' + i).blur(function(){
+			saveStats();
+		});
+		$('#K-top-ex' + i).blur(function(){
+			saveStats();
+		});
+		
+		$('#U-bottom-ex' + i).blur(function(){
+			saveStats();
+		});
+		$('#K-bottom-ex' + i).blur(function(){
+			saveStats();
+		});
+	}
+
+	//m entre 5 e 10
+	var m = Math.round(5 + 5 * Math.random());
+	//L entre 5 e 10
+	var L = Math.round(5 + 5 * Math.random());
+	//g entre 5 e 20
+	var g = Math.round(5 + 15 * Math.random());
+	ai.setMassa(m);
+	ai.setTeta(0);
+	ai.setComprimento(L);
+	ai.setGravity(g);
+	ai.playAnimation();
+	/*console.log(ai.getMassa());
+	console.log(ai.getTeta());
+	console.log(ai.getComprimento());
+	console.log(ai.getGravidade());*/
+	
   // Ao pressionar numa aba (exercício), define aquele como exercício da tela.
   $('#exercicios').tabs({
       select: function(event, ui) {
         screenExercise = ui.index;
+		
 		ai.showHideMHS(false);		
         
         if (screenExercise == 2 || screenExercise == 3) {
@@ -303,7 +389,7 @@ function iniciaAtividade(){
 	if(screenExercise == 1){
 		if(value01 != '' || value02 != '' || value03 != '' || value04 != '') {
 			//Habilita botão Terminar no exercicio 1.
-				$( ".check-button" ).button({ disabled: false });
+				$( ".check-button1" ).button({ disabled: false });
 			
 		}
 	}
@@ -338,27 +424,57 @@ function iniciaAtividade(){
 	    }
 	}
   });
-  initAI();
+//  initAI();
+
+	memento = fetch();
+	recoverStatus();
 }
+
 
 /*
  * Inicia a conexão SCORM.
  */ 
-function initAI () {
+function fetch () {
  
-  // Conecta-se ao LMS
-  var connected = scorm.init();
+  var ans = {};
+  ans.completed = false;
+  ans.score = 0;
+  ans.connected = false;
+  ans.standalone = true;
+  ans.memento = {};
   
-  // A tentativa de conexão com o LMS foi bem sucedida.
-  if (connected) {
+  ans.memento.currentEx = 1;
 	
+	for(var i = 1; i <=6; i++){
+		var name = "pos" + i;
+		ans.memento[name] = {};
+		
+		ans.memento[name].button = false;	
+	}
+  
+  // Conecta-se ao LMS
+  session_connected = scorm.init();
+  session_standalone = !session_connected;
+  
+  if (session_standalone) {
+  
+      var stream = localStorage.getItem(localStorageKey);
+      if (stream != null) ans = JSON.parse(stream);
+      
+      ans.try_completed = ans.completed;
+  }
+  else {
+  
 	var mode = scorm.get("cmi.mode");
 	if(mode == "normal") scorm.set("cmi.credit", "credit")
 	else scorm.set("cmi.credit", "no-credit");
+  
+	scorm.set("cmi.score.min", "0");
+	scorm.set("cmi.score.max", "100");
 	
     // Verifica se a AI já foi concluída.
     var completionstatus = scorm.get("cmi.completion_status");
-    
+	
     // A AI já foi concluída.
     switch (completionstatus) {
     
@@ -366,53 +482,35 @@ function initAI () {
       case "not attempted":
       case "unknown":
       default:
-        completed = false;
-        scormExercise = 1;
-        score = 0;
-        
-        $("#completion-message").removeClass().addClass("completion-message-off");    
+      	ans.connected = session_connected;
+      	ans.standalone = session_standalone;
         break;
         
       // Continuando a AI...
       case "incomplete":
-        completed = false;
+        var stream = scorm.get("cmi.suspend_data");
+        if (stream != "") ans = JSON.parse(stream);
         
-        scormExercise = parseInt(scorm.get("cmi.location"));
-        score = parseInt(scorm.get("cmi.score.raw"));
-        $("#completion-message").removeClass().addClass("completion-message-off");
+        ans.connected = session_connected;
+        ans.standalone = session_standalone;
         break;
         
       // A AI já foi completada.
       case "completed":
-        completed = true;
-        scormExercise = parseInt(scorm.get("cmi.location"));
-        score = parseInt(scorm.get("cmi.score.raw"));
+        var stream = scorm.get("cmi.suspend_data");
+        if (stream != "") ans = JSON.parse(stream);
         
-        $("#completion-message").removeClass().addClass("completion-message-on");
+        ans.completed = true;
+        ans.connected = session_connected;
+        ans.standalone = session_standalone;
         break;
-    }
-    
-    if (isNaN(scormExercise)) scormExercise = 1;
-    if (isNaN(score)) score = 0;
-	
-	scorm.set("cmi.score.min", 0);
-	scorm.set("cmi.score.max", 100);
-	
-	// Posiciona o aluno no exercício da vez
-    screenExercise = scormExercise;
-    $('#exercicios').tabs("select", scormExercise - 1);  
-    
-    pingLMS();
-    
+    }    
   }
-  // A tentativa de conexão com o LMS falhou.
-  else {
-    completed = false;
-    scormExercise = 1;
-    score = 0;
-    log.error("A conexão com o Moodle falhou.");
-  }
+  
+  return ans;
 }
+
+var localStorageKey = "AI-0088-memento2";
 
 /*
  * Salva cmi.score.raw, cmi.location e cmi.completion_status no LMS
@@ -428,6 +526,8 @@ function save2LMS () {
     // Notifica o LMS que esta atividade foi concluída.
     success = scorm.set("cmi.completion_status", (completed ? "completed" : "incomplete"));
 	
+	scorm.set("cmi.suspend_data", JSON.stringify(memento));
+	
 	if (completed) {
 		scorm.set("cmi.exit", "normal");
 	} else { 
@@ -442,11 +542,13 @@ function save2LMS () {
     if (!success) log.error("Falha ao enviar dados para o LMS.");
   }
   else {
-    log.trace("A conexão com o LMS não está ativa.");
+    //log.trace("A conexão com o LMS não está ativa.");
+	var str = JSON.stringify(memento);
+	localStorage.setItem(localStorageKey, str);
   }
 }
 /*
- * Mantém a conexão com LMS ativa, atualizando a variável cmi.session_time
+ * Mantém a conexão com +LMS ativa, atualizando a variável cmi.session_time
  */
 function pingLMS () {
 
@@ -461,7 +563,7 @@ function evaluateExercise (event) {
   
   // Avalia a nota
   var currentScore = getScore(screenExercise);
-  score += currentScore / N_EXERCISES;
+  score += (currentScore / N_EXERCISES)/2;
   
   if(exOk == false) return;
   console.log(screenExercise + "\t" + currentScore);
@@ -471,7 +573,7 @@ function evaluateExercise (event) {
   // Atualiza a nota do LMS (apenas se a questão respondida é aquela esperada pelo LMS)
   if (!completed && screenExercise == scormExercise) {
     //score = Math.max(0, Math.min(score, 100));
-    
+    //console.log(score);
     if (scormExercise < N_EXERCISES) {
       nextExercise();
     }
@@ -483,8 +585,9 @@ function evaluateExercise (event) {
       save2LMS();
       scorm.quit();
     }
-  }	
-}
+  }	//console.log(score);
+  saveStats();
+ }
 
 /*
  * Prepara o próximo exercício.
@@ -493,6 +596,9 @@ function nextExercise () {
   if (scormExercise < N_EXERCISES) ++scormExercise;
   
   $('#exercicios').tabs("enable", scormExercise);
+  memento.memento.currentEx = scormExercise;
+  var exAnt = "pos" + (scormExercise - 1);
+  memento.memento[exAnt].button = true;
 }
 
 var TOLERANCE = 0.05;
@@ -508,19 +614,22 @@ function getScore (exercise) {
 
   ans = 0;
   var angle = 0;
+  var screenExercise = exercise;
 
   switch (exercise) {
-  
     // Avalia a nota dos exercícios 1 e 4.
     case 1:
     case 4:
-    default:		
 		//desabilitar caixas de texto, botão Terminei.
 		$( ".check-button" + screenExercise).button({ disabled: true });
 		$("#U-top-ex" + screenExercise).attr("disabled",true);
         $("#K-top-ex" + screenExercise).attr("disabled",true);
 		$("#U-bottom-ex" + screenExercise).attr("disabled",true);
 		$("#K-bottom-ex" + screenExercise).attr("disabled",true);
+		$("#Ur-top-ex" + screenExercise).attr("disabled",true);
+        $("#Kr-top-ex" + screenExercise).attr("disabled",true);
+		$("#Ur-bottom-ex" + screenExercise).attr("disabled",true);
+		$("#Kr-bottom-ex" + screenExercise).attr("disabled",true);
 		
 		field = $("#U-top-ex" + screenExercise);
 		field2 = $("#Ur-top-ex" + screenExercise);
@@ -618,6 +727,10 @@ function getScore (exercise) {
         $("#K-top-ex" + screenExercise).attr("disabled",true);
 		$("#U-bottom-ex" + screenExercise).attr("disabled",true);
 		$("#K-bottom-ex" + screenExercise).attr("disabled",true);
+		$("#Ur-top-ex" + screenExercise).attr("disabled",true);
+        $("#Kr-top-ex" + screenExercise).attr("disabled",true);
+		$("#Ur-bottom-ex" + screenExercise).attr("disabled",true);
+		$("#Kr-bottom-ex" + screenExercise).attr("disabled",true);
 		
 		//****** U ******//
 		if (evaluate(user_answer, right_answer, 0.22)) {
@@ -708,6 +821,10 @@ function getScore (exercise) {
         $("#K-top-ex" + screenExercise).attr("disabled",true);
 		$("#U-bottom-ex" + screenExercise).attr("disabled",true);
 		$("#K-bottom-ex" + screenExercise).attr("disabled",true);
+		$("#Ur-top-ex" + screenExercise).attr("disabled",true);
+        $("#Kr-top-ex" + screenExercise).attr("disabled",true);
+		$("#Ur-bottom-ex" + screenExercise).attr("disabled",true);
+		$("#Kr-bottom-ex" + screenExercise).attr("disabled",true);
       
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;

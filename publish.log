@@ -2,6 +2,9 @@ Copying from /c/Users/Maria Isabel/AIs/AI-0088 to cepa@arquivos.atp.usp.br:/work
 building file list ... done
 ./
 AI-0088_SCO.zip
+index.html
+js/scorm-config.js
+swf/AI-0088.swf
 
-sent 6442 bytes  received 1660 bytes  16204.00 bytes/sec
-total size is 617546  speedup is 76.22
+sent 289729 bytes  received 2707 bytes  194957.33 bytes/sec
+total size is 727033  speedup is 2.49

@@ -36,7 +36,7 @@
       padding: 3px;
       text-align: center;
     }
-    #respcerta1, #respcerta2
+    #respcerta1, #respcerta2, #respcerta3, #respcerta4, #respcerta5, #respcerta6
     {
       border: 5px;
       border-collapse:collapse;
@@ -153,7 +153,7 @@
       </p>
       <div style="width: 300px;"><p>Incerteza na energia: <span id="error-ex1">indefinida.</span></p></div>
       
-      <p><span class="check-button">Terminei</span></p>
+      <p><span class="check-button1">Terminei</span></p>
       
       <p id="message1"></p>
       
@@ -198,8 +198,8 @@
         </tr>
         <tr>
           <td><center><img src="./images/pendulo_alto.png"></center></td>
-          <td><input id="Ur-top-ex2" type="text" size="6" maxlength="5" onchange="update(1, 'top');"/></td>
-          <td><input id="Kr-top-ex2" type="text" size="6" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><input id="Ur-top-ex2" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><input id="Kr-top-ex2" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
           <td><div id="Er-top-ex2">0</div></td>
         </tr>
         <tr>
@@ -214,15 +214,15 @@
       <p><span class="check-button2">Terminei</span></p>
       <p id="message2"></p>
       <p id="follow-up-ex2">Note que agora o erro cometido no cálculo da energia não é mais zero, pois estamos utilizando valores "experimentais" (advindos da simulação acima). Mesmo assim, podemos notar a conservação da energia mecânica.</p>
-      <b>Dica</b>.: você pode aproximar o gráfico para vê-lo melhor. Para isso, pressione o botão "shift" e arraste a roda do mouse.
+      <p><b>Dica</b>.: você pode aproximar o gráfico para vê-lo melhor. Para isso, pressione o botão "shift" e arraste a roda do mouse.</p>
     </div>
     
     <!-- Exercício 3 -->
     <div id="ex3" class="exercicio">
-      <p>Faça agora os mesmos cálculos que você fez no exercício anterior (sem usar conservação de energia) e preencha a tabela. Mas ao invés dos valores "experimentais", utilize aqueles previstos pelo Movimento Harmônico Simples. Dito de outra forma, utilize <strong>apenas</strong> a equação horária θ(t) = θ<sub>0</sub> cos(ω t).</p>
-      
+      <p>Faça agora os mesmos cálculos que você fez no exercício anterior (sem usar conservação de energia) e preencha a tabela. Mas ao invés dos valores "experimentais", utilize aqueles previstos pelo Movimento Harmônico Simples. Dito de outra forma, utilize <strong>apenas</strong> a equação horária θ(t) = θ<sub>0</sub> cos(ω t).</p>     
       <p>
-      <table border="1">
+	  <div style="float:left;">
+      <table id="tabela1" border="1" bordercolor="#999999">
         <tr>
           <th class="top-left-cell"></th>
           <th>U (J)</th>
@@ -242,14 +242,34 @@
           <td><div id="E-bottom-ex3">0</div></td>
         </tr>
       </table>
+	  </div>
       </p>
       
-      <p>Incerteza na energia: <span id="error-ex3">indefinida.</span></p>
-      
-      <p><span class="check-button3">Terminei</span></p>
-      
-      <p id="message3"></p>
-      
+	  <div style="margin-left: 420px; <!--background-color:#99CC66; width: 300px;-->">
+      <table id="respcerta3" style="display:none" border="5" bordercolor="#99CC66">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><center><img src="./images/pendulo_alto.png"></center></td>
+          <td><input id="Ur-top-ex3" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><input id="Kr-top-ex3" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><div id="Er-top-ex3">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="Ur-bottom-ex3" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><input id="Kr-bottom-ex3" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><div id="Er-bottom-ex3">0</div></td>
+        </tr>
+      </table>
+	  </div>	  
+      <div style="width: 300px;"><p>Incerteza na energia: <span id="error-ex3">indefinida.</span></p></div>      
+      <p><span class="check-button3">Terminei</span></p>      
+      <p id="message3"></p>      
       <p id="follow-up-ex3">Você utilizou três métodos diferentes para calcular as energias cinética e potencial gravitacional: no primeiro método você utilizou apenas a amplitude da oscilação (θ<sub>0</sub> = θ<sub>máximo</sub>) para calcular U e, através da conservação da energia, deduziu K. No segundo método você utilizou tanto θ<sub>máximo</sub> como dθ<sub>máximo</sub>/dt para calcular U e K, respectivamente. Os cálculos no terceiro método foram iguais ao do segundo, mas desta vez você utilizou o modelo do Movimento Harmônico Simples para calcular dθ<sub>máximo</sub>/dt e, então, K.</p>
     </div>
     
@@ -257,9 +277,9 @@
     <div id="ex4" class="exercicio">
       <p>Nos exercícios seguintes você refará as contas dos exercícios anteriores, mas desta vez para oscilações de grande amplitude (não deixe de ficar atento(a) à incerteza no valor da energia em cada caso).<p>
       <p>Ponha o pêndulo para oscilar com uma amplitude de 90º e, apenas utilizando o princípio de conservação da energia mecânica, preencha a tabela abaixo, da mesma forma como você fez no exercício 1.</p>
-      
       <p>
-      <table border="1">
+ 	  <div style="float:left;">
+      <table id="tabela1" border="1" bordercolor="#999999">
         <tr>
           <th class="top-left-cell"></th>
           <th>U (J)</th>
@@ -279,21 +299,44 @@
           <td><div id="E-bottom-ex4">0</div></td>
         </tr>
       </table>
+	  </div>
       </p>
+	  
+	  <div style="margin-left: 420px; <!--background-color:#99CC66; width: 300px;-->">
+      <table id="respcerta4" style="display:none" border="5" bordercolor="#99CC66">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><center><img src="./images/pendulo_alto.png"></center></td>
+          <td><input id="Ur-top-ex4" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><input id="Kr-top-ex4" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><div id="Er-top-ex4">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="Ur-bottom-ex4" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><input id="Kr-bottom-ex4" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><div id="Er-bottom-ex4">0</div></td>
+        </tr>
+      </table>
+	  </div>	  
+      <div style="width: 300px;"><p>Incerteza na energia: <span id="error-ex4">indefinida.</span></p></div>
       
-      <p>Incerteza na energia: <span id="error-ex4">indefinida.</span></p>
+      <p><span class="check-button4">Terminei</span></p>
       
-      <p><span class="check-button">Terminei</span></p>
-      
-      <p id="feedback-ex4"></p>
+      <p id="message4"></p>
     </div>
     
     <!-- Exercício 5 -->
     <div id="ex5" class="exercicio">
       <p>Como no exercício 2, consulte o gráfico de dθ/dt versus θ e preencha a tabela.</p>
-      
       <p>
-      <table border="1">
+	  <div style="float:left;">
+      <table id="tabela1" border="1" bordercolor="#999999">
         <tr>
           <th class="top-left-cell"></th>
           <th>U (J)</th>
@@ -313,13 +356,37 @@
           <td><div id="E-bottom-ex5">0</div></td>
         </tr>
       </table>
+	  </div>
       </p>
+	  
+	  <div style="margin-left: 420px; <!--background-color:#99CC66; width: 300px;-->">
+      <table id="respcerta5" style="display:none" border="5" bordercolor="#99CC66">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><center><img src="./images/pendulo_alto.png"></center></td>
+          <td><input id="Ur-top-ex5" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><input id="Kr-top-ex5" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><div id="Er-top-ex5">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="Ur-bottom-ex5" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><input id="Kr-bottom-ex5" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><div id="Er-bottom-ex5">0</div></td>
+        </tr>
+      </table>
+	  </div>	  
       
-      <p>Incerteza na energia: <span id="error-ex5">indefinida.</span></p>
+      <div style="width: 300px;"><p>Incerteza na energia: <span id="error-ex5">indefinida.</span></p></div>
       
-      <p><span class="check-button">Terminei</span></p>
+      <p><span class="check-button5">Terminei</span></p>
       
-      <p id="feedback-ex5"></p>
+      <p id="message5"></p>
     </div>
     
     <!-- Exercício 6 -->
@@ -327,7 +394,8 @@
       <p>Utilize novamente o modelo do Movimento Harmônico Simples para calcular U e K a partir de θ máximo e dθ/dt máximo, respectivamente (não use conservação de energia).</p>
       
       <p>
-      <table border="1">
+	  <div style="float:left;">
+      <table id="tabela1" border="1" bordercolor="#999999">
         <tr>
           <th class="top-left-cell"></th>
           <th>U (J)</th>
@@ -347,13 +415,37 @@
           <td><div id="E-bottom-ex6">0</div></td>
         </tr>
       </table>
+	  </div>
       </p>
+	  
+	  <div style="margin-left: 420px; <!--background-color:#99CC66; width: 300px;-->">
+      <table id="respcerta6" style="display:none" border="5" bordercolor="#99CC66">
+        <tr>
+          <th class="top-left-cell"></th>
+          <th>U (J)</th>
+          <th>K (J)</th>
+          <th>E (J)</th>
+        </tr>
+        <tr>
+          <td><center><img src="./images/pendulo_alto.png"></center></td>
+          <td><input id="Ur-top-ex6" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><input id="Kr-top-ex6" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'top');"/></td>
+          <td><div id="Er-top-ex6">0</div></td>
+        </tr>
+        <tr>
+          <td><img src="./images/pendulo_baixo.png"></td>
+          <td><input id="Ur-bottom-ex6" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><input id="Kr-bottom-ex6" type="text" size="6" value="0" maxlength="5" onchange="update(1, 'bottom');"></td>
+          <td><div id="Er-bottom-ex6">0</div></td>
+        </tr>
+      </table>
+	  </div>	  
       
-      <p>Incerteza na energia: <span id="error-ex6">indefinida.</span></p>
+      <div style="width: 300px;"><p>Incerteza na energia: <span id="error-ex6">indefinida.</span></p></div>
       
-      <p><span class="check-button">Terminei</span></p>
+      <p><span class="check-button6">Terminei</span></p>
       
-      <p id="feedback-ex6"></p>
+      <p id="message6"></p>
       
       <p id="follow-up-ex6">Você prestou atenção nas incertezas em cada caso? Discuta-as com seus colegas.</p>
     </div>
