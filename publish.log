@@ -3,8 +3,6 @@ building file list ... done
 ./
 AI-0088_SCO.zip
 index.html
-js/scorm-config.js
-swf/AI-0088.swf
 
-sent 289729 bytes  received 2707 bytes  194957.33 bytes/sec
-total size is 727033  speedup is 2.49
+sent 18844 bytes  received 2333 bytes  8470.80 bytes/sec
+total size is 727037  speedup is 34.33
