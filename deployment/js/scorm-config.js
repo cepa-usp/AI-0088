@@ -92,17 +92,15 @@ function configAi () {
 
 }
 
-var debug = true; 
+var debug = false; 
 
 function selectExercise (exercise) {
 	switch(exercise) {
 		case 1:
 			console.log("Configurando o exercício 1");
-			
-
-				console.log(ai.getMassa());
-				console.log(ai.getComprimento());
-				console.log(ai.getGravidade());
+				//console.log(ai.getMassa());
+				//console.log(ai.getComprimento());
+				//console.log(ai.getGravidade());
 				
 			//MODO DE DEBUG
 			if(debug){
@@ -256,6 +254,7 @@ function getAi(){
 
 function saveStats(){
 	//alert("salvando");
+	
 	for(var i = 1; i <=6; i++){
 		//alert($('#U-top-ex' + i).val());
 		var name = "pos" + i;
@@ -271,6 +270,10 @@ function saveStats(){
 }
 
 function recoverStatus(){
+
+
+
+
 	for(var i = 1; i <=6; i++){
 		var name = "pos" + i;
 		
@@ -296,11 +299,12 @@ function recoverStatus(){
 		}
 		
 	}
+	
 }
 
 // Inicia a AI.
 function iniciaAtividade(){       
-  	
+	
 	for(var i = 1; i <=6; i++){
 		$('#U-top-ex' + i).blur(function(){
 			saveStats();
@@ -317,21 +321,7 @@ function iniciaAtividade(){
 		});
 	}
 
-	//m entre 5 e 10
-	var m = Math.round(5 + 5 * Math.random());
-	//L entre 5 e 10
-	var L = Math.round(5 + 5 * Math.random());
-	//g entre 5 e 20
-	var g = Math.round(5 + 15 * Math.random());
-	ai.setMassa(m);
-	ai.setTeta(0);
-	ai.setComprimento(L);
-	ai.setGravity(g);
-	ai.playAnimation();
-	/*console.log(ai.getMassa());
-	console.log(ai.getTeta());
-	console.log(ai.getComprimento());
-	console.log(ai.getGravidade());*/
+
 	
   // Ao pressionar numa aba (exercício), define aquele como exercício da tela.
   $('#exercicios').tabs({
@@ -427,6 +417,12 @@ function iniciaAtividade(){
 //  initAI();
 
 	memento = fetch();
+	//console.log(memento.sorteioM, memento.sorteioL, memento.sorteiog);
+	ai.setMassa(memento.sorteioM);
+	ai.setTeta(0);
+	ai.setComprimento(memento.sorteioL);
+	ai.setGravity(memento.sorteiog);
+	ai.playAnimation();
 	recoverStatus();
 }
 
@@ -442,7 +438,26 @@ function fetch () {
   ans.connected = false;
   ans.standalone = true;
   ans.memento = {};
+  ans.sorteioM = Math.round(5 + 5 * Math.random());
+  ans.sorteioL = Math.round(5 + 5 * Math.random());
+  ans.sorteiog = Math.round(5 + 15 * Math.random());
   
+  	/*//m entre 5 e 10
+	var m = Math.round(5 + 5 * Math.random());
+	//L entre 5 e 10
+	var L = Math.round(5 + 5 * Math.random());
+	//g entre 5 e 20
+	var g = Math.round(5 + 15 * Math.random());
+	ai.setMassa(m);
+	ai.setTeta(0);
+	ai.setComprimento(L);
+	ai.setGravity(g);
+	ai.playAnimation();
+	/*console.log(ai.getMassa());
+	console.log(ai.getTeta());
+	console.log(ai.getComprimento());
+	console.log(ai.getGravidade());*/
+	
   ans.memento.currentEx = 1;
 	
 	for(var i = 1; i <=6; i++){
@@ -510,7 +525,7 @@ function fetch () {
   return ans;
 }
 
-var localStorageKey = "AI-0088-memento2";
+var localStorageKey = "AI-0088-memento3";
 
 /*
  * Salva cmi.score.raw, cmi.location e cmi.completion_status no LMS
