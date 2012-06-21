@@ -92,7 +92,7 @@ function configAi () {
 
 }
 
-var debug = false; 
+var debug = true; 
 
 function selectExercise (exercise) {
 	switch(exercise) {

@@ -92,7 +92,7 @@ function configAi () {
 
 }
 
-var debug = false; 
+var debug = true; 
 
 function selectExercise (exercise) {
 	switch(exercise) {
@@ -480,19 +480,10 @@ function fetch () {
   }
   else {
   
-	var entry = scorm.get("cmi.entry");
-	var ___score = scorm.get("cmi.score.raw");
-	var ___score_min = scorm.get("cmi.score.min");
-	var ___score_max = scorm.get("cmi.score.max");
-	var ___score_scaled = scorm.get("cmi.score.scaled");
-	
-	  
 	var mode = scorm.get("cmi.mode");
 	if(mode == "normal") scorm.set("cmi.credit", "credit")
 	else scorm.set("cmi.credit", "no-credit");
   
-	console.log(entry + "\t[" + ___score + "]\t[" + ___score_min + "]\t[" + ___score_max + "]\t[" + ___score_scaled + "]\t[" + mode);
-	
 	scorm.set("cmi.score.min", "0");
 	scorm.set("cmi.score.max", "100");
 	
