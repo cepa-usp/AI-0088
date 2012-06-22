@@ -10,7 +10,7 @@ var pingCount = 0; // Conta a quantidade de pings enviados para o LMS
 var ai; // Referência para a AI (Flash)
 var MAX_INIT_TRIES = 60;
 var init_tries = 0;
-var debug = true;
+var debug = false;
 var SCORE_UNIT = 100 / 24; //isso está certo? não seria o número de exercícios 100/6 ?
 var currentScore = 0;
 var exOk;
