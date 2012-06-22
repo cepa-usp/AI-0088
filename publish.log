@@ -1,9 +1,10 @@
-Copying from /c/Users/Maria Isabel/AIs/AI-0088 to cepa@arquivos.atp.usp.br:/work/PUBLICACAO/atividades-interativas/AI-0088
+Copying from /d/Projetos/05 - GitHub/AI-0088 to cepa@arquivos.atp.usp.br:/work/PUBLICACAO/atividades-interativas/AI-0088
 building file list ... done
 ./
 AI-0088_SCO.zip
-js/
+js/SCORM_API_wrapper.js
+js/jquery-1.4.2.min.js
 js/scorm-config.js
 
-sent 12707 bytes  received 2414 bytes  10080.67 bytes/sec
-total size is 727527  speedup is 48.11
+sent 72739 bytes  received 3271 bytes  152020.00 bytes/sec
+total size is 727071  speedup is 9.57
