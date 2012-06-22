@@ -893,7 +893,7 @@ function getScore (exercise) {
 		field = $("#K-bottom-ex" + screenExercise);
 		field2 = $("#Kr-bottom-ex" + screenExercise);
 		user_answer = parseFloat(field.val().replace(",", "."));
-		right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * Math.pow(angle * Math.PI / 180, 2) / 2;
+		right_answer = ai.getMassa() * Math.pow(ai.getComprimento() * (2 * Math.PI / ai.getPeriodo()) * (angle * Math.PI / 180), 2) / 2;
 		
 		if (evaluate(user_answer, right_answer, TOLERANCE)) {
 			ans += 100/4;
