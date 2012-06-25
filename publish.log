@@ -1,7 +1,8 @@
-Copying from /c/Users/Maria Isabel/AIs/AI-0088 to cepa@arquivos.atp.usp.br:/work/PUBLICACAO/atividades-interativas/AI-0088
+Copying from /d/Projetos/05 - GitHub/AI-0088 to cepa@arquivos.atp.usp.br:/work/PUBLICACAO/atividades-interativas/AI-0088
 building file list ... done
 ./
 AI-0088_SCO.zip
+<<<<<<< HEAD
 index.html
 css/
 css/style.css
@@ -29,6 +30,10 @@ js/
 js/SCORM_API_wrapper.js
 js/jquery-1.4.2.min.js
 js/jquery-ui-1.8.6.custom.min.js
+=======
+js/SCORM_API_wrapper.js
+js/jquery-1.4.2.min.js
+>>>>>>> bfc5557bb966e5c23e443db1281150d505d7ce31
 js/scorm-config.js
 js/swfobject.js
 swf/
@@ -36,5 +41,10 @@ swf/AI-0088.swf
 swf/AI_Loader.swf
 swf/expressInstall.swf
 
+<<<<<<< HEAD
 sent 602414 bytes  received 6937 bytes  406234.00 bytes/sec
 total size is 727908  speedup is 1.19
+=======
+sent 72739 bytes  received 3271 bytes  152020.00 bytes/sec
+total size is 727071  speedup is 9.57
+>>>>>>> bfc5557bb966e5c23e443db1281150d505d7ce31

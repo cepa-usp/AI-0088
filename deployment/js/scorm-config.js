@@ -10,7 +10,7 @@ var pingCount = 0; // Conta a quantidade de pings enviados para o LMS
 var ai; // Referência para a AI (Flash)
 var MAX_INIT_TRIES = 60;
 var init_tries = 0;
-var debug = true;
+var debug = false;
 var SCORE_UNIT = 100 / 24; //isso está certo? não seria o número de exercícios 100/6 ?
 var currentScore = 0;
 var exOk;
@@ -893,9 +893,9 @@ function getScore (exercise) {
 		field = $("#K-bottom-ex" + screenExercise);
 		field2 = $("#Kr-bottom-ex" + screenExercise);
 		user_answer = parseFloat(field.val().replace(",", "."));
-		right_answer = ai.getMassa() * ai.getGravidade() * ai.getComprimento() * Math.pow(angle * Math.PI / 180, 2) / 2;
-		
-		if (evaluate(user_answer, right_answer, TOLERANCE)) {
+		right_answer = ai.getMassa() * Math.pow(ai.getComprimento() * (2 * Math.PI / ai.getPeriodo()) * (angle * Math.PI / 180), 2) / 2;
+
+		if (evaluate(user_answer, right_answer, 0.1)) {
 			ans += 100/4;
 			field.css("background-color", "#66CC33");
 			field2.val(right_answer.toFixed(1).replace(".", ","));
